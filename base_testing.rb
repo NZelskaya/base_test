@@ -11,10 +11,10 @@ end
 #checks that control contains 'text'
 def DoesContainText(control, text)
  control.wait_until_present
- p 'Current lead status:'
- p innertext = control.text
- p 'Does current status correct:'
- innertext.eql? text	
+ puts 'Current lead status:'
+ puts innertext = control.text
+ puts 'Does current status correct:'
+ result1 = innertext.eql? text  
 end
 #constant strings
 link              = 'https://getbase.com/pricing/'
@@ -74,28 +74,33 @@ puts SetText(leadsLastNameField, leadsLastName)
 #press Save button
 puts ClickOnControl(saveBtn)
 #check that newly created lead has status New
-puts DoesContainText(leadStatusField,	leadStatus)
-#click on Settings icon 
-puts ClickOnControl(settingsIcon)
-#click on Settings tab
-puts ClickOnControl(settingTab)
-#click on Leads tab in Settings
-puts ClickOnControl(leadSubTab) 
-#click on Lead Statuses tab
-puts ClickOnControl(leadStatusesTab)
-#click on Edit button for New status
-editStatusIcon = editIcon.parent.parent.button(:class => 'edit')
-puts ClickOnControl(editStatusIcon)
-#set lead status Name to New Test
-puts SetText(editStatusField, leadStatusChanged)
-#save lead status new name
-saveStatusBtn = editStatusField.parent.parent.parent.button(:text => 'Save')
-puts ClickOnControl(saveStatusBtn)
-#go to Leads menu
-puts ClickOnControl(leadsTab)
-#open last lead
-puts ClickOnControl(createdLeadsList.li(:index => 1).link(:class => 'lead-name'))
-#check that 
-puts DoesContainText(leadStatusField,leadStatusChanged)
+puts leadStatusNewExists = DoesContainText(leadStatusField, leadStatus)
+#if status isn't New than stop test
+if !leadStatusNewExists
+ puts 'Please, change Lead Status to New'
+else
+ #click on Settings icon 
+ puts ClickOnControl(settingsIcon)
+ #click on Settings tab
+ puts ClickOnControl(settingTab)
+ #click on Leads tab in Settings
+ puts ClickOnControl(leadSubTab) 
+ #click on Lead Statuses tab
+ puts ClickOnControl(leadStatusesTab)
+ #click on Edit button for New status
+ editStatusIcon = editIcon.parent.parent.button(:class => 'edit')
+ puts ClickOnControl(editStatusIcon)
+ #set lead status Name to New Test
+ puts SetText(editStatusField, leadStatusChanged)
+ #save lead status new name
+ saveStatusBtn = editStatusField.parent.parent.parent.button(:text => 'Save')
+ puts ClickOnControl(saveStatusBtn)
+ #go to Leads menu
+ puts ClickOnControl(leadsTab)
+ #open last lead
+ puts ClickOnControl(createdLeadsList.li(:index => 1).link(:class => 'lead-name'))
+ #check that 
+ puts DoesContainText(leadStatusField,leadStatusChanged)
+end
 #close browser
 b.close
