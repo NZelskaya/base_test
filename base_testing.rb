@@ -97,9 +97,9 @@ else
  puts ClickOnControl(saveStatusBtn)
  #go to Leads menu
  puts ClickOnControl(leadsTab)
- #open last lead
+ #open first lead
  puts ClickOnControl(createdLeadsList.li(:index => 1).link(:class => 'lead-name'))
- #check that 
+ #check that lead status changed to Test
  puts DoesContainText(leadStatusField,leadStatusChanged)
 end
 #close browser
